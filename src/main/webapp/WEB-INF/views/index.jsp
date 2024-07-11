@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <%@ include file="../jsp/header.jsp" %>
 
@@ -53,22 +53,21 @@
 
     <a href="#" class="btn btn--large">Załóż konto</a>
 </section>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formularz Darowizny</title>
+</head>
+<body>
+
 <section class="form--steps">
     <div class="form--steps-instructions">
         <div class="form--steps-container">
             <h3>Ważne!</h3>
-            <p data-step="1" class="active">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="2">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="3">
-                Wybierz jedną, do
-                której trafi Twoja przesyłka.
-            </p>
+            <p data-step="1" class="active">Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy wiedzieć komu najlepiej je przekazać.</p>
+            <p data-step="2">Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy wiedzieć komu najlepiej je przekazać.</p>
+            <p data-step="3">Wybierz jedną, do której trafi Twoja przesyłka.</p>
             <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
         </div>
     </div>
@@ -76,186 +75,164 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
-        <form:form action="${pageContext.request.contextPath}/donation/submit" method="post" modelAttribute="donation">
+        <!-- STEP 1 -->
+        <form:form method="post" action="step1">
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
-
-                <c:forEach items="${categories}" var="category">
-                    <div class="form-group form-group--checkbox">
+                <div class="form-group form-group--checkbox">
+                    <c:forEach items="${categories}" var="category">
                         <label>
-                            <form:checkbox path="categories" value="${category}" />
+                            <input type="checkbox" name="categories" value="${category.id}" />
                             <span class="checkbox"></span>
                             <span class="description">${category.name}</span>
                         </label>
-                    </div>
-                </c:forEach>
-
+                    </c:forEach>
+                </div>
                 <div class="form-group form-group--buttons">
-                    <button type="submit" class="btn">Dalej</button>
+                    <button type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
         </form:form>
 
         <!-- STEP 2 -->
-        <div data-step="2">
-            <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
-
-            <form:form action="${pageContext.request.contextPath}/donation/submit" method="post" modelAttribute="donation">
+        <form:form method="post" action="step2" modelAttribute="donations">
+            <div data-step="2">
+                <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
                 <div class="form-group form-group--inline">
-                    <label>
-                        Liczba 60l worków:
-                        <form:input path="quantity" type="number" step="1" min="1" />
-                    </label>
+                    <label>Liczba 60l worków:</label>
+                    <form:input path="quantity" type="number" step="1" min="1" />
                 </div>
-
                 <div class="form-group form-group--buttons">
-                    <button type="submit" class="btn prev-step">Wstecz</button>
+                    <button type="button" class="btn prev-step">Wstecz</button>
                     <button type="submit" class="btn next-step">Dalej</button>
                 </div>
-            </form:form>
-        </div>
+            </div>
+        </form:form>
 
         <!-- STEP 3 -->
-        <div data-step="3">
-            <h3>Wybierz organizację, której chcesz pomóc:</h3>
-
-            <form:form action="${pageContext.request.contextPath}/donation/submit" method="post" modelAttribute="donation">
-                <div class="form-group form-group--checkbox">
-                    <c:forEach items="${institutions}" var="institution">
-                        <label>
-                            <form:radiobutton path="institution" value="${institution}" />
-                            <span class="checkbox radio"></span>
-                            <span class="description">
-                                <div class="title">${institution.name}</div>
-                                <div class="subtitle">${institution.description}</div>
-                            </span>
-                        </label>
-                    </c:forEach>
-                </div>
-
-                <div class="form-group form-group--buttons">
-                    <button type="submit" class="btn prev-step">Wstecz</button>
-                    <button type="submit" class="btn next-step">Dalej</button>
-                </div>
-            </form:form>
-        </div>
+   <form:form method="post" action="step3" modelAttribute="donations">
+   <div data-step="3">
+    <h3>Wybierz organizację, której chcesz pomóc:</h3>
+    <div class="form-group form-group--checkbox">
+        <c:forEach items="${institutions}" var="institution">
+            <label>
+                <form:radiobutton path="institution.id" value="${institution.id}" />
+                <span class="checkbox radio"></span>
+                <span class="description">
+                    <div class="title">${institution.name}</div>
+                    <div class="subtitle">${institution.description}</div>
+                </span>
+            </label>
+        </c:forEach>
+    </div>
+    <div class="form-group form-group--buttons">
+        <button type="button" class="btn prev-step">Wstecz</button>
+        <button type="submit" class="btn next-step">Dalej</button>
+    </div>
+</div>
+</form:form>
 
         <!-- STEP 4 -->
-        <div data-step="4">
-            <h3>Podaj adres oraz termin odbioru rzeczy przez kuriera:</h3>
-
-            <form:form action="${pageContext.request.contextPath}/donation/submit" method="post" modelAttribute="donation">
+        <form:form id="step3Form" method="post" action="step4" modelAttribute="donations">
+            <div data-step="4">
+                <h3>Podaj adres oraz termin odbioru rzeczy przez kuriera:</h3>
                 <div class="form-section form-section--columns">
                     <div class="form-section--column">
                         <h4>Adres odbioru</h4>
                         <div class="form-group form-group--inline">
-                            <label> Ulica <form:input path="street" /> </label>
+                            <label>Ulica</label>
+                            <form:input path="street" id="street" />
                         </div>
-
                         <div class="form-group form-group--inline">
-                            <label> Miasto <form:input path="city" /> </label>
+                            <label>Miasto</label>
+                            <form:input path="city" id="city" />
                         </div>
-
                         <div class="form-group form-group--inline">
-                            <label>
-                                Kod pocztowy <form:input path="zipCode" />
-                            </label>
+                            <label>Kod pocztowy</label>
+                            <form:input path="zipCode" id="zipCode" />
                         </div>
-
                         <div class="form-group form-group--inline">
-                            <label>
-                                Numer telefonu <form:input path="phone" />
-                            </label>
+                            <label>Numer telefonu</label>
+                            <form:input path="phone" id="phone" />
                         </div>
                     </div>
-
                     <div class="form-section--column">
                         <h4>Termin odbioru</h4>
                         <div class="form-group form-group--inline">
-                            <label> Data <form:input path="pickUpDate" type="date" /> </label>
+                            <label>Data</label>
+                            <form:input path="pickUpDate" id="pickUpDate" type="date" />
                         </div>
-
                         <div class="form-group form-group--inline">
-                            <label> Godzina <form:input path="pickUpTime" type="time" /> </label>
+                            <label>Godzina</label>
+                            <form:input path="pickUpTime" id="pickUpTime" type="time" />
                         </div>
-
                         <div class="form-group form-group--inline">
-                            <label>
-                                Uwagi dla kuriera
-                                <form:textarea path="pickUpComment" rows="5"></form:textarea>
-                            </label>
+                            <label>Uwagi dla kuriera</label>
+                            <form:textarea path="pickUpComment" id="pickUpComment" rows="5"></form:textarea>
                         </div>
                     </div>
                 </div>
                 <div class="form-group form-group--buttons">
-                    <button type="submit" class="btn prev-step">Wstecz</button>
-                    <button type="submit" class="btn next-step">Dalej</button>
-                </div>
-            </form:form>
-        </div>
-
-        <!-- STEP 5 -->
-        <div data-step="5">
-            <h3>Podsumowanie Twojej darowizny</h3>
-
-            <div class="summary">
-                <div class="form-section">
-                    <h4>Oddajesz:</h4>
-                    <ul>
-                        <c:forEach items="${donation.categories}" var="category">
-                            <li>
-                                <span class="icon icon-bag"></span>
-                                <span class="summary--text">${category.name}</span>
-                            </li>
-                        </c:forEach>
-
-                        <li>
-                            <span class="icon icon-hand"></span>
-                            <span class="summary--text">Dla fundacji "${donation.institution.name}"</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="form-section form-section--columns">
-                    <div class="form-section--column">
-                        <h4>Adres odbioru:</h4>
-                        <ul>
-                            <li>${donation.street}</li>
-                            <li>${donation.city}</li>
-                            <li>${donation.zipCode}</li>
-                            <li>${donation.phone}</li>
-                        </ul>
-                    </div>
-
-                    <div class="form-section--column">
-                        <h4>Termin odbioru:</h4>
-                        <ul>
-                            <li>${donation.pickUpDate}</li>
-                            <li>${donation.pickUpTime}</li>
-                            <li>${donation.pickUpComment}</li>
-                        </ul>
-                    </div>
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button type="submit" class="btn">Zatwierdź</button>
                 </div>
             </div>
+        </form:form>
 
-            <form:form action="${pageContext.request.contextPath}/donation/submit" method="post" modelAttribute="donation">
-                <div class="form-group form-group--buttons">
-                    <button type="submit" class="btn prev-step">Wstecz</button>
-                    <button type="submit" class="btn">Potwierdzam</button>
-                </div>
-            </form:form>
+<form action="processDonation.jsp" method="post">
+    <!-- KROK 5 -->
+    <div data-step="5">
+      <h3>Podsumowanie Twojej darowizny</h3>
+<div class="summary">
+    <div class="form-section">
+        <h4>Oddajesz:</h4>
+        <ul>
+            <li>
+                <span class="icon icon-bag"></span>
+                <span class="summary--text" id="summaryQuantity"></span>
+            </li>
+            <li>
+                <span class="icon icon-hand"></span>
+                <span class="summary--text" id="summaryInstitution"></span>
+            </li>
+        </ul>
+    </div>
+    <div class="form-section form-section--columns">
+        <div class="form-section--column">
+            <h4>Adres odbioru:</h4>
+            <ul id="summaryAddress">
+                <li id="street"></li>
+                <li id="city"></li>
+                <li id="zipCode"></li>
+                <li id="phone"></li>
+            </ul>
+        </div>
+        <div class="form-section--column">
+            <h4>Termin odbioru:</h4>
+            <ul id="summaryPickup">
+                <li id="pickUpDate"></li>
+                <li id="pickUpTime"></li>
+                <li id="pickUpComment"></li>
+            </ul>
         </div>
     </div>
+</div>
+<div class="form-group form-group--buttons">
+    <button type="button" class="btn prev-step">Wstecz</button>
+    <button type="submit" class="btn">Potwierdzam</button>
+</div>
+      </div>
+</form>
+        </div>
 </section>
-
 <section class="about-us">
     <div class="about-us--text">
         <h2>O nas</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas vitae animi rem pariatur incidunt libero
             optio esse quisquam illo omnis.</p>
-        <img src="<c:url value='resources/images/signature.svg'/>" class="about-us--text-signature" alt="Signature"/>
+        <img src="<c:url value='/resources/images/signature.svg'/>" class="about-us--text-signature" alt="Signature"/>
     </div>
-    <div class="about-us--image"><img src="<c:url value='resources/images/about-us.jpg'/>" alt="People in circle"/>
+    <div class="about-us--image"><img src="<c:url value='/resources/images/about-us.jpg'/>" alt="People in circle"/>
     </div>
 </section>
 
@@ -284,5 +261,6 @@
         </ul>
     </div>
 </section>
-
+<script src="<c:url value='/resources/js/app.js' />"></script>
+<script src="<c:url value='/resources/js/donation.js' />"></script>
 <%@ include file="../jsp/footer.jsp" %>

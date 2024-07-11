@@ -8,6 +8,19 @@ import java.util.List;
 @Entity
 public class Donation {
 
+    public Donation(Long id, String pickUpComment, LocalTime pickUpTime, LocalDate pickUpDate, String zipCode, String city, String street, Institution institution, List<Category> categories, Integer quantity) {
+        this.id = id;
+        this.pickUpComment = pickUpComment;
+        this.pickUpTime = pickUpTime;
+        this.pickUpDate = pickUpDate;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.street = street;
+        this.institution = institution;
+        this.categories = categories;
+        this.quantity = quantity;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,8 +45,21 @@ public class Donation {
     private LocalDate pickUpDate;
     private LocalTime pickUpTime;
     private String pickUpComment;
+    private String phone;
 
-    // Getters and setters
+    public Donation() {
+
+    }
+
+    public Donation(String street, String city, String zipCode, String phone, String pickUpComment) {
+        this.street = street;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.pickUpComment = pickUpComment;
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -42,60 +68,20 @@ public class Donation {
         this.id = id;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public String getPickUpComment() {
+        return pickUpComment;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setPickUpComment(String pickUpComment) {
+        this.pickUpComment = pickUpComment;
     }
 
-    public List<Category> getCategories() {
-        return categories;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public Institution getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(Institution institution) {
-        this.institution = institution;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public LocalDate getPickUpDate() {
-        return pickUpDate;
-    }
-
-    public void setPickUpDate(LocalDate pickUpDate) {
-        this.pickUpDate = pickUpDate;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public LocalTime getPickUpTime() {
@@ -106,11 +92,59 @@ public class Donation {
         this.pickUpTime = pickUpTime;
     }
 
-    public String getPickUpComment() {
-        return pickUpComment;
+    public LocalDate getPickUpDate() {
+        return pickUpDate;
     }
 
-    public void setPickUpComment(String pickUpComment) {
-        this.pickUpComment = pickUpComment;
+    public void setPickUpDate(LocalDate pickUpDate) {
+        this.pickUpDate = pickUpDate;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

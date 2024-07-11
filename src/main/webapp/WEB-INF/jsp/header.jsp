@@ -11,6 +11,7 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="<c:url value='resources/css/style.css'/>"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 <header class="header--main-page">
