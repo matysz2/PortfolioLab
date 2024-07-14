@@ -114,7 +114,9 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     init() {
       this.events();
+
       this.updateForm();
+
     }
 
     /**
@@ -127,6 +129,11 @@ document.addEventListener("DOMContentLoaded", function() {
           e.preventDefault();
           this.currentStep++;
           this.updateForm();
+          if (this.currentStep == 5) {
+            showSummary();
+
+          }
+
         });
       });
 
@@ -141,6 +148,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // Form submit
       this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+    }
+
+    /**
+     * Form submit method
+     */
+    submit(e) {
+      e.preventDefault();
+    showSummary();
+    this.currentStep++;
+      this.updateForm();
+
     }
 
     /**
@@ -163,12 +181,79 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 5;
       this.$step.parentElement.hidden = this.currentStep >= 5;
 
+
       // TODO: get data from inputs and show them in summary
     }
-
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
+
   }
+
+  function showSummary() {
+    document.getElementById("streetSummary").innerText = document.getElementById("street").value;
+    document.getElementById("citySummary").innerText = document.getElementById("city").value;
+    document.getElementById("postcodeSummary").innerText = document.getElementById("zipCode").value;
+    document.getElementById("phoneSummary").innerText = document.getElementById("phone").value;
+    document.getElementById("dateSummary").innerText = document.getElementById("pickUpDate").value;
+    document.getElementById("timeSummary").innerText = document.getElementById("pickUpTime").value;
+    document.getElementById("infoSummary").innerText = document.getElementById("pickUpComment").value;
+    document.getElementById("summaryQuantity").innerText=document.getElementById('quantity').value;
+
+    let institutionName = document.querySelector("input[name='institution.id']:checked").closest("label").querySelector(".title").innerText;
+    document.getElementById("instSummary").innerText = institutionName;
+
+
+
+  }
+
+  function sendData() {
+    let street = document.getElementById("street").value;
+    let city = document.getElementById("city").value;
+    let zipCode = document.getElementById("zipCode").value;
+    let phone = document.getElementById("phone").value;
+    let pickUpDate = document.getElementById("pickUpDate").value;
+    let pickUpTime = document.getElementById("pickUpTime").value;
+    let pickUpComment = document.getElementById("pickUpComment").value;
+    let quantity = document.getElementById('quantity').value;
+
+    var selectedInstitution = document.querySelector('input[name="institution.id"]:checked').value;
+alert(selectedInstitution);
+
+
+    const data = {
+      street: street,
+      city: city,
+      zipCode: zipCode,
+      phone: phone,
+      pickUpDate: pickUpDate,
+      pickUpTime: pickUpTime,
+      pickUpComment: pickUpComment,
+      quantity: quantity,
+      institution_id: selectedInstitution
+    };
+
+    // Send the data to the Spring Boot controller
+    fetch('/donation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(responseData => {
+          console.log('Success:', responseData);
+          // Handle success
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          // Handle error
+        });
+  }
+
+
+
 });

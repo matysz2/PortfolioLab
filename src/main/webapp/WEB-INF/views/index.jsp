@@ -25,7 +25,7 @@
     </div>
 </section>
 
-<section class="steps">
+<section class="steps" id="steps">
     <h2>Wystarczą 4 proste kroki</h2>
 
     <div class="steps--container">
@@ -76,7 +76,8 @@
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
         <!-- STEP 1 -->
-        <form:form method="post" action="step1">
+        <form:form method="post" action="processDonation" modelAttribute="donations">
+
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
                 <div class="form-group form-group--checkbox">
@@ -92,25 +93,25 @@
                     <button type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
-        </form:form>
+
 
         <!-- STEP 2 -->
-        <form:form method="post" action="step2" modelAttribute="donations">
+
             <div data-step="2">
                 <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
                 <div class="form-group form-group--inline">
                     <label>Liczba 60l worków:</label>
-                    <form:input path="quantity" type="number" step="1" min="1" />
+                    <form:input path="quantity" type="number" id="quantity" step="1" min="1" />
                 </div>
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
                     <button type="submit" class="btn next-step">Dalej</button>
                 </div>
             </div>
-        </form:form>
+
 
         <!-- STEP 3 -->
-   <form:form method="post" action="step3" modelAttribute="donations">
+
    <div data-step="3">
     <h3>Wybierz organizację, której chcesz pomóc:</h3>
     <div class="form-group form-group--checkbox">
@@ -130,10 +131,10 @@
         <button type="submit" class="btn next-step">Dalej</button>
     </div>
 </div>
-</form:form>
+
 
         <!-- STEP 4 -->
-        <form:form id="step3Form" method="post" action="step4" modelAttribute="donations">
+
             <div data-step="4">
                 <h3>Podaj adres oraz termin odbioru rzeczy przez kuriera:</h3>
                 <div class="form-section form-section--columns">
@@ -173,59 +174,62 @@
                     </div>
                 </div>
                 <div class="form-group form-group--buttons">
-                    <button type="button" class="btn prev-step">Wstecz</button>
+                  <button type="button" class="btn prev-step">Wstecz</button>
                     <button type="submit" class="btn">Zatwierdź</button>
                 </div>
             </div>
-        </form:form>
 
-<form action="processDonation.jsp" method="post">
     <!-- KROK 5 -->
-    <div data-step="5">
-      <h3>Podsumowanie Twojej darowizny</h3>
-<div class="summary">
-    <div class="form-section">
-        <h4>Oddajesz:</h4>
-        <ul>
-            <li>
-                <span class="icon icon-bag"></span>
-                <span class="summary--text" id="summaryQuantity"></span>
-            </li>
-            <li>
-                <span class="icon icon-hand"></span>
-                <span class="summary--text" id="summaryInstitution"></span>
-            </li>
-        </ul>
-    </div>
-    <div class="form-section form-section--columns">
-        <div class="form-section--column">
-            <h4>Adres odbioru:</h4>
-            <ul id="summaryAddress">
-                <li id="street"></li>
-                <li id="city"></li>
-                <li id="zipCode"></li>
-                <li id="phone"></li>
-            </ul>
-        </div>
-        <div class="form-section--column">
-            <h4>Termin odbioru:</h4>
-            <ul id="summaryPickup">
-                <li id="pickUpDate"></li>
-                <li id="pickUpTime"></li>
-                <li id="pickUpComment"></li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="form-group form-group--buttons">
-    <button type="button" class="btn prev-step">Wstecz</button>
-    <button type="submit" class="btn">Potwierdzam</button>
-</div>
+        <div data-step="5">
+            <h3>Podsumowanie Twojej darowizny</h3>
+
+            <div class="summary">
+                <div class="form-section">
+                    <h4>Oddajesz:</h4>
+                    <ul>
+                        <li>
+                            <span class="icon icon-bag"></span>
+                            <span class="summary--text" id="summaryQuantity"></span>
+                        </li>
+                        <li>
+                            <span class="icon icon-hand"></span>
+                            <span class="summary--text" id="instSummary"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="form-section form-section--columns">
+                    <div class="form-section--column">
+                        <h4>Adres odbioru:</h4>
+                        <ul>
+                            <li id="streetSummary"></li>
+                            <li id="citySummary"></li>
+                            <li id="postcodeSummary"></li>
+                            <li id="phoneSummary"></li>
+                        </ul>
+                    </div>
+
+                    <div class="form-section--column">
+                        <h4>Termin odbioru:</h4>
+                        <ul>
+                            <li id="dateSummary"></li>
+                            <li id="timeSummary"></li>
+                            <li id="infoSummary"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        <div class="form-group form-group--buttons">
+              <button type="button" class="btn prev-step">Wstecz</button>
+              <button type="submit" class="btn">Potwierdzam</button>
+            </div>
       </div>
-</form>
+    </form:form>
         </div>
 </section>
-<section class="about-us">
+<section class="about-us" id="about_us">
     <div class="about-us--text">
         <h2>O nas</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas vitae animi rem pariatur incidunt libero
@@ -236,7 +240,7 @@
     </div>
 </section>
 
-<section class="help">
+<section class="help" id="help">
     <h2>Komu pomagamy?</h2>
     <div class="help--slides active" data-id="1">
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują.</p>
@@ -262,5 +266,5 @@
     </div>
 </section>
 <script src="<c:url value='/resources/js/app.js' />"></script>
-<script src="<c:url value='/resources/js/donation.js' />"></script>
+
 <%@ include file="../jsp/footer.jsp" %>

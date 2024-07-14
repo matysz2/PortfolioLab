@@ -29,6 +29,7 @@ public class HomeController {
 
 
 
+
     @GetMapping("/")
     public String showInstitutions(Model model) {
 
@@ -53,6 +54,7 @@ public class HomeController {
 
         model.addAttribute("command", new Donation());
         model.addAttribute("donations", new Donation());
+
 
 
         return "index";

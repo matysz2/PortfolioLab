@@ -1,6 +1,8 @@
 package pl.coderslab.charity.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -20,6 +22,8 @@ public class Donation {
         this.categories = categories;
         this.quantity = quantity;
     }
+    @Transient
+    private Long institutionId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,11 +44,27 @@ public class Donation {
     private Institution institution;
 
     private String street;
+
     private String city;
+
+    public Long getInstitutionId() {
+        return institutionId;
+    }
+
+    public void setInstitutionId(Long institutionId) {
+        this.institutionId = institutionId;
+    }
+
     private String zipCode;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+
     private LocalDate pickUpDate;
+
     private LocalTime pickUpTime;
+
     private String pickUpComment;
+
     private String phone;
 
     public Donation() {
@@ -59,6 +79,7 @@ public class Donation {
         this.pickUpComment = pickUpComment;
 
     }
+
 
     public Long getId() {
         return id;
