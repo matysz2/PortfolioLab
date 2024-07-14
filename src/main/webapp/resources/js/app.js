@@ -114,7 +114,6 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     init() {
       this.events();
-
       this.updateForm();
 
     }
@@ -129,11 +128,6 @@ document.addEventListener("DOMContentLoaded", function() {
           e.preventDefault();
           this.currentStep++;
           this.updateForm();
-          if (this.currentStep == 5) {
-            showSummary();
-
-
-          }
 
         });
       });
@@ -161,6 +155,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.currentStep++;
       this.updateForm();
       showSummary();
+      sendData();
 
 
     }
@@ -226,7 +221,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var selectedInstitution = document.querySelector('input[name="institution.id"]:checked').value;
 
 
-
     const data = {
       street: street,
       city: city,
@@ -240,21 +234,12 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // Send the data to the Spring Boot controller
-    fetch('/donation', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(responseData => {
-          console.log('Success:', responseData);
-          // Handle success
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          // Handle error
-        });
+    $.ajax({
+      url: '/donation',
+      type: 'POST',
+      contentType: 'application/json',
+      data: {donation:data },
+
+    });
   }
-
-
-
 });

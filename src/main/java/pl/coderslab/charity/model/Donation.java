@@ -3,6 +3,7 @@ package pl.coderslab.charity.model;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -23,6 +24,7 @@ public class Donation {
         this.quantity = quantity;
     }
     @Transient
+
     private Long institutionId;
 
     @Id

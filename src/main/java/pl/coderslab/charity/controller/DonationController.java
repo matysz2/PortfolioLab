@@ -42,7 +42,7 @@ public class DonationController {
         donation.setQuantity(donation.getQuantity());
         donation.setInstitutionId(donation.getInstitutionId());
 
-
+        donationRepository.save(donation);
 
         return "redirect:/form_confirmation";
     }
