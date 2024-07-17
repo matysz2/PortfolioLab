@@ -194,38 +194,21 @@ function showSummary() {
   document.getElementById("timeSummary").textContent = document.getElementById("pickUpTime").value;
   document.getElementById("infoSummary").textContent = document.getElementById("pickUpComment").value;
   document.getElementById("summaryQuantity").textContent = document.getElementById('quantity').value;
+
+  const radioButtons = document.querySelectorAll('div[data-step="3"] .form-group--checkbox input[type="radio"]');
+
+// Initialize a variable to store the selected institution name
+  let selectedInstitutionName = null;
+
+// Loop through each radio button to find the checked one
+  radioButtons.forEach(radio => {
+    if (radio.checked) {
+      // Get the institution name from the corresponding .title element
+      selectedInstitutionName = radio.parentElement.querySelector('.title').textContent.trim();
+
+    const instSummary = document.getElementById('instSummary');
+    instSummary.textContent = ` ${selectedInstitutionName}`;
 }
+});
 
-function sendData() {
-  let street = document.getElementById("street").value;
-  let city = document.getElementById("city").value;
-  let zipCode = document.getElementById("zipCode").value;
-  let phone = document.getElementById("phone").value;
-  let pickUpDate = document.getElementById("pickUpDate").value;
-  let pickUpTime = document.getElementById("pickUpTime").value;
-  let pickUpComment = document.getElementById("pickUpComment").value;
-  let quantity = document.getElementById('quantity').value;
-
-  var institution = $('input[name="institution.id"]:checked').val();
-
-
-  const data = {
-
-    institution: institution,
-  };
-
-  // Send data to the server using AJAX
-  $.ajax({
-    url: '/donation',
-    type: 'post',
-    contentType: 'application/json',
-    data: JSON.stringify({donation: data}),
-    success: function (response) {
-      window.location.href = '/form_confirmation'; // Redirect to confirmation page after successful submission
-    },
-    error: function (xhr, status, error) {
-      console.error('Error saving donation:', error);
-      // Handle errors here
-    }
-  });
 }

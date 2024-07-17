@@ -4,9 +4,8 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
 <%@ include file="../jsp/header.jsp" %>
-
+<html lang="pl">
 <section class="stats">
     <div class="container container--85">
         <div class="stats--item">

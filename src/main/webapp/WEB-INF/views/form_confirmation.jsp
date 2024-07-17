@@ -1,4 +1,6 @@
 <%@ include file="../jsp/header.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html lang="pl">
 
 <div class="slogan container container--90">
         <h2>
