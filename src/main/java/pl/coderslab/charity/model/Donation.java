@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -23,9 +24,7 @@ public class Donation {
         this.categories = categories;
         this.quantity = quantity;
     }
-    @Transient
 
-    private Long institutionId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +41,7 @@ public class Donation {
     private List<Category> categories;
 
     @ManyToOne
+
     @JoinColumn(name = "institution_id", nullable = false)
     private Institution institution;
 
@@ -49,13 +49,7 @@ public class Donation {
 
     private String city;
 
-    public Long getInstitutionId() {
-        return institutionId;
-    }
 
-    public void setInstitutionId(Long institutionId) {
-        this.institutionId = institutionId;
-    }
 
     private String zipCode;
 

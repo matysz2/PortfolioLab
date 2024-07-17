@@ -6,6 +6,7 @@ import java.util.List;
 @Entity
 public class Institution {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,7 +18,7 @@ public class Institution {
     @OneToMany(mappedBy = "institution")
     private List<Donation> donations;
 
-    // Getters and setters
+
     public Long getId() {
         return id;
     }

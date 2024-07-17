@@ -7,8 +7,11 @@ import pl.coderslab.charity.model.Institution;
 import java.util.List;
 
 public interface InstitutionRepository extends JpaRepository<Institution, Long> {
-@Query("SELECT i FROM Institution i")
-List<Institution> findAllInstitutions();
+
+
+
+    @Query("SELECT i FROM Institution i WHERE i.id =:id")
+   List <Institution> findInstitutionById(Long id);
 
 
 

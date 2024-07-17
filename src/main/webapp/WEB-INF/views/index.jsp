@@ -76,7 +76,7 @@
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
         <!-- STEP 1 -->
-        <form:form method="post" action="processDonation" modelAttribute="donations">
+        <form:form method="post" action="donation" modelAttribute="donations">
 
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
@@ -117,7 +117,7 @@
     <div class="form-group form-group--checkbox">
         <c:forEach items="${institutions}" var="institution">
             <label>
-                <form:radiobutton path="institution.id" value="${institution.id}" />
+                <form:radiobutton  path="institution.id" value="${institution.id}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
                     <div class="title">${institution.name}</div>

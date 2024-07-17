@@ -74,21 +74,15 @@ document.addEventListener("DOMContentLoaded", function() {
    */
   document.addEventListener("click", function(e) {
     const target = e.target;
-    const tagName = target.tagName;
+    const isDropdownClick = target.classList.contains("dropdown");
+    const isListElementClick = target.tagName === "LI" && target.parentElement.parentElement.classList.contains("dropdown");
+    const isDropdownCurrentClick = target.tagName === "DIV" && target.parentElement.classList.contains("dropdown");
 
-    if (target.classList.contains("dropdown")) return false;
-
-    if (tagName === "LI" && target.parentElement.parentElement.classList.contains("dropdown")) {
-      return false;
+    if (!isDropdownClick && !isListElementClick && !isDropdownCurrentClick) {
+      document.querySelectorAll(".form-group--dropdown .dropdown").forEach(el => {
+        el.classList.remove("selecting");
+      });
     }
-
-    if (tagName === "DIV" && target.parentElement.classList.contains("dropdown")) {
-      return false;
-    }
-
-    document.querySelectorAll(".form-group--dropdown .dropdown").forEach(el => {
-      el.classList.remove("selecting");
-    });
   });
 
   /**
@@ -115,7 +109,6 @@ document.addEventListener("DOMContentLoaded", function() {
     init() {
       this.events();
       this.updateForm();
-
     }
 
     /**
@@ -128,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function() {
           e.preventDefault();
           this.currentStep++;
           this.updateForm();
-
         });
       });
 
@@ -143,7 +135,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // Form submit
       this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
-
     }
 
     /**
@@ -155,9 +146,13 @@ document.addEventListener("DOMContentLoaded", function() {
       this.currentStep++;
       this.updateForm();
       showSummary();
-      sendData();
+      if(this.currentStep>5){
+        {
 
+          e.target.submit();
 
+        }
+      }
     }
 
     /**
@@ -180,7 +175,6 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 5;
       this.$step.parentElement.hidden = this.currentStep >= 5;
 
-
       // TODO: get data from inputs and show them in summary
     }
   }
@@ -188,58 +182,50 @@ document.addEventListener("DOMContentLoaded", function() {
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
-
-  }
-
-  function showSummary() {
-    document.getElementById("streetSummary").innerText = document.getElementById("street").value;
-    document.getElementById("citySummary").innerText = document.getElementById("city").value;
-    document.getElementById("postcodeSummary").innerText = document.getElementById("zipCode").value;
-    document.getElementById("phoneSummary").innerText = document.getElementById("phone").value;
-    document.getElementById("dateSummary").innerText = document.getElementById("pickUpDate").value;
-    document.getElementById("timeSummary").innerText = document.getElementById("pickUpTime").value;
-    document.getElementById("infoSummary").innerText = document.getElementById("pickUpComment").value;
-    document.getElementById("summaryQuantity").innerText=document.getElementById('quantity').value;
-
-    let institutionName = document.querySelector("input[name='institution.id']:checked").closest("label").querySelector(".title").innerText;
-    document.getElementById("instSummary").innerText = institutionName;
-
-
-
-  }
-
-  function sendData() {
-    let street = document.getElementById("street").value;
-    let city = document.getElementById("city").value;
-    let zipCode = document.getElementById("zipCode").value;
-    let phone = document.getElementById("phone").value;
-    let pickUpDate = document.getElementById("pickUpDate").value;
-    let pickUpTime = document.getElementById("pickUpTime").value;
-    let pickUpComment = document.getElementById("pickUpComment").value;
-    let quantity = document.getElementById('quantity').value;
-
-    var selectedInstitution = document.querySelector('input[name="institution.id"]:checked').value;
-
-
-    const data = {
-      street: street,
-      city: city,
-      zipCode: zipCode,
-      phone: phone,
-      pickUpDate: pickUpDate,
-      pickUpTime: pickUpTime,
-      pickUpComment: pickUpComment,
-      quantity: quantity,
-      institution_id: selectedInstitution
-    };
-
-    // Send the data to the Spring Boot controller
-    $.ajax({
-      url: '/donation',
-      type: 'POST',
-      contentType: 'application/json',
-      data: {donation:data },
-
-    });
   }
 });
+
+function showSummary() {
+  document.getElementById("streetSummary").textContent = document.getElementById("street").value;
+  document.getElementById("citySummary").textContent = document.getElementById("city").value;
+  document.getElementById("postcodeSummary").textContent = document.getElementById("zipCode").value;
+  document.getElementById("phoneSummary").textContent = document.getElementById("phone").value;
+  document.getElementById("dateSummary").textContent = document.getElementById("pickUpDate").value;
+  document.getElementById("timeSummary").textContent = document.getElementById("pickUpTime").value;
+  document.getElementById("infoSummary").textContent = document.getElementById("pickUpComment").value;
+  document.getElementById("summaryQuantity").textContent = document.getElementById('quantity').value;
+}
+
+function sendData() {
+  let street = document.getElementById("street").value;
+  let city = document.getElementById("city").value;
+  let zipCode = document.getElementById("zipCode").value;
+  let phone = document.getElementById("phone").value;
+  let pickUpDate = document.getElementById("pickUpDate").value;
+  let pickUpTime = document.getElementById("pickUpTime").value;
+  let pickUpComment = document.getElementById("pickUpComment").value;
+  let quantity = document.getElementById('quantity').value;
+
+  var institution = $('input[name="institution.id"]:checked').val();
+
+
+  const data = {
+
+    institution: institution,
+  };
+
+  // Send data to the server using AJAX
+  $.ajax({
+    url: '/donation',
+    type: 'post',
+    contentType: 'application/json',
+    data: JSON.stringify({donation: data}),
+    success: function (response) {
+      window.location.href = '/form_confirmation'; // Redirect to confirmation page after successful submission
+    },
+    error: function (xhr, status, error) {
+      console.error('Error saving donation:', error);
+      // Handle errors here
+    }
+  });
+}
