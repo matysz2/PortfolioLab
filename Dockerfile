@@ -1,5 +1,5 @@
-# Wersja JDK
-FROM openjdk:21-jdk-slim
+# Etap 1: Budowanie aplikacji
+FROM openjdk:21-jdk-slim as builder
 
 # Ustawiamy katalog roboczy
 WORKDIR /app
@@ -17,8 +17,11 @@ RUN mvn clean package -DskipTests
 # Sprawdzamy, czy plik .war istnieje
 RUN ls -l /app/target/
 
-# Kopiujemy plik .war do kontenera
-COPY /app/target/charity-0.0.1-SNAPSHOT.war /app/charity.war
+# Etap 2: Uruchamianie aplikacji na Tomcat
+FROM tomcat:9.0-jdk11-openjdk
 
-# Uruchamiamy aplikację Spring Boot
-CMD ["java", "-war", "/app/charity.war"]
+# Kopiujemy plik .war z etapu budowania do folderu webapps Tomcat
+COPY --from=builder /app/target/charity.war /usr/local/tomcat/webapps/
+
+# Uruchamiamy Tomcat
+CMD ["catalina.sh", "run"]
