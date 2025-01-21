@@ -1,5 +1,5 @@
 # Etap 1: Budowanie aplikacji
-FROM maven:3.8.4-openjdk-17-slim AS builder
+FROM maven:3.9.1-eclipse-temurin-21 AS builder
 
 # Ustawiamy katalog roboczy
 WORKDIR /app
