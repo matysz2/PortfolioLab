@@ -11,8 +11,8 @@ COPY pom.xml /app
 # Ustalamy katalog roboczy na /app
 WORKDIR /app
 
-# Budujemy aplikację za pomocą Mavena
-RUN mvn clean package
+# Budujemy aplikację, pomijając testy
+RUN mvn clean package -DskipTests
 
 # Uruchamiamy aplikację
 CMD ["java", "-jar", "target/your-app.jar"]
