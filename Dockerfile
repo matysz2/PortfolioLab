@@ -1,5 +1,5 @@
 # Etap 1: Budowanie aplikacji
-FROM maven:3.8.4-openjdk-21-slim AS builder
+FROM maven:3.8.4-openjdk-17-slim AS builder
 
 # Ustawiamy katalog roboczy
 WORKDIR /app
@@ -17,11 +17,11 @@ FROM openjdk:21-jdk-slim
 # Ustawiamy katalog roboczy
 WORKDIR /app
 
-# Kopiujemy zbudowany plik .jar z etapu budowania
-COPY --from=builder /app/target/charity-0.0.1-SNAPSHOT.jar /app/charity.jar
+# Kopiujemy zbudowany plik .war z etapu budowania
+COPY --from=builder /app/target/charity-0.0.1-SNAPSHOT.war /app/charity.war
 
 # Określamy polecenie uruchomienia aplikacji Spring Boot
-ENTRYPOINT ["java", "-jar", "/app/charity.jar"]
+ENTRYPOINT ["java", "-jar", "/app/charity.war"]
 
 # Otwieramy port 8080 (domyślny port aplikacji Spring Boot)
 EXPOSE 8080
