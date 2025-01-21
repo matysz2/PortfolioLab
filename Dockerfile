@@ -15,4 +15,4 @@ WORKDIR /app
 RUN mvn clean package -DskipTests
 
 # Uruchamiamy aplikację
-CMD ["java", "-jar", "target/your-app.jar"]
+COPY target/charity-0.0.1-SNAPSHOT.war /app/charity.war
