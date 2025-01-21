@@ -1,0 +1,28 @@
+# Ignorujemy pliki i foldery specyficzne dla Git
+.git
+.gitignore
+
+# Ignorujemy pliki związane z IDE (IntelliJ, VSCode, itp.)
+.idea
+*.iml
+*.ipr
+.vscode/
+nbproject/
+
+# Ignorujemy foldery tworzone przez Maven
+target/
+*.log
+
+# Ignorujemy pliki konfiguracyjne do budowania, które nie są wymagane w Dockerze
+*.md
+*.yml
+*.yaml
+
+# Ignorujemy pliki DevTools, które nie są konieczne do uruchomienia aplikacji
+spring-boot-devtools/
+
+# Umożliwiamy dodanie pliku WAR, żeby Docker go skopiował
+!target/charity-0.0.1-SNAPSHOT.war
+
+# Ignorujemy wszelkie inne pliki w katalogu .mvn, które nie są wymagane
+.mvn/
