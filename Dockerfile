@@ -1,23 +1,20 @@
-# Użyj obrazu z OpenJDK
+# Użyj obrazu z OpenJDK 11
 FROM openjdk:11-jre-slim
 
-# Zainstaluj git i maven (jeśli jeszcze nie są w obrazie)
-RUN apt-get update && apt-get install -y git maven
+# Zainstaluj Maven (jeśli potrzebujesz go do budowania projektu w kontenerze)
+RUN apt-get update && apt-get install -y maven
 
-# Skopiuj plik pom.xml do kontenera (jeśli używasz Mavena)
-COPY pom.xml /app/pom.xml
+# Skopiuj kod źródłowy do kontenera
+COPY . /app
 
-# Przejdź do katalogu roboczego
+# Przejdź do katalogu z aplikacją
 WORKDIR /app
 
-# Pobierz kod z GitHub (reponame zastąp pełnym linkiem do repo)
-RUN git clone https://github.com/TwojeUserName/TwojeRepo.git .
-
-# Zbuduj projekt (jeśli używasz Mavena)
+# Zbuduj aplikację, jeśli nie została jeszcze zbudowana (opcjonalne, jeśli plik war jest już gotowy)
 RUN mvn clean package
 
 # Skopiuj plik .war do kontenera
 COPY target/PortfolioLab.war /app/PortfolioLab.war
 
-# Uruchom aplikację Java
+# Uruchom aplikację
 CMD ["java", "-jar", "/app/PortfolioLab.war"]
