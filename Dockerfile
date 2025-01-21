@@ -1,10 +1,14 @@
+# Używamy obrazu z JDK 21
 FROM openjdk:21-jdk-slim
 
-# Kopiujemy kod źródłowy do kontenera
+# Instalujemy Maven
+RUN apt-get update && apt-get install -y maven
+
+# Kopiujemy kod źródłowy i plik pom.xml do katalogu /app
 COPY src /app/src
 COPY pom.xml /app
 
-# Przechodzimy do katalogu z projektem
+# Ustalamy katalog roboczy na /app
 WORKDIR /app
 
 # Budujemy aplikację za pomocą Mavena
