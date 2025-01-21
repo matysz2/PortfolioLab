@@ -1,5 +1,5 @@
 # Wybieramy oficjalny obraz JDK 11
-FROM openjdk:21-jre-slim
+FROM openjdk:11-jre-slim
 
 # Instalujemy Maven
 RUN apt-get update && apt-get install -y maven
