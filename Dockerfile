@@ -1,20 +1,20 @@
-# Użyj obrazu z OpenJDK 11
+# Użyj obrazu OpenJDK 11
 FROM openjdk:11-jre-slim
 
-# Zainstaluj Maven (jeśli potrzebujesz go do budowania projektu w kontenerze)
+# Zainstaluj Maven (jeśli jeszcze nie jest zainstalowany)
 RUN apt-get update && apt-get install -y maven
 
-# Skopiuj kod źródłowy do kontenera
+# Skopiuj cały kod źródłowy do kontenera
 COPY . /app
 
-# Przejdź do katalogu z aplikacją
+# Zmień katalog roboczy na /app
 WORKDIR /app
 
-# Zbuduj aplikację, jeśli nie została jeszcze zbudowana (opcjonalne, jeśli plik war jest już gotowy)
+# Zbuduj aplikację
 RUN mvn clean package
 
 # Skopiuj plik .war do kontenera
 COPY target/PortfolioLab.war /app/PortfolioLab.war
 
-# Uruchom aplikację
+# Uruchom aplikację Java
 CMD ["java", "-jar", "/app/PortfolioLab.war"]
