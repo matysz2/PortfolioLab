@@ -21,7 +21,7 @@ RUN ls -l /app/target/
 FROM tomcat:9.0-jdk11-openjdk
 
 # Kopiujemy plik .war z etapu budowania do folderu webapps Tomcat
-COPY --from=builder /app/target/charity.war /usr/local/tomcat/webapps/
+COPY --from=builder /app/target/charity-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/charity.war
 
 # Uruchamiamy Tomcat
 CMD ["catalina.sh", "run"]
