@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y maven
 # Budujemy aplikację (pomijamy testy)
 RUN mvn clean package -DskipTests
 
-# Sprawdzamy zawartość katalogu target, aby upewnić się, że plik .war istnieje
+# Sprawdzamy, co znajduje się w katalogu /app/target/
 RUN ls -l /app/target/
 
 # Sprawdzamy, czy plik .war istnieje przed kopiowaniem
