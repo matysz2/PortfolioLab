@@ -1,5 +1,8 @@
 # Etap 1: Budowanie aplikacji
-FROM maven:3.9.1-openjdk-21 AS builder
+FROM openjdk:21-jdk-slim AS builder
+
+# Instalujemy Maven
+RUN apt-get update && apt-get install -y maven
 
 # Ustawiamy katalog roboczy
 WORKDIR /app
