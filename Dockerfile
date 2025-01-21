@@ -1,23 +1,15 @@
-# Użyj obrazu OpenJDK 11
-FROM openjdk:11-jre-slim
+# Wybieramy oficjalny obraz JDK 11
+FROM openjdk:21-jre-slim
 
-# Zainstaluj Maven
+# Instalujemy Maven
 RUN apt-get update && apt-get install -y maven
 
-# Skopiuj cały kod źródłowy do kontenera
+# Kopiujemy kod źródłowy do kontenera
+WORKDIR /app
 COPY . /app
 
-# Zmień katalog roboczy na /app
-WORKDIR /app
-
-# Zbuduj aplikację
+# Budujemy aplikację za pomocą Mavena
 RUN mvn clean package
 
-# Sprawdź, czy plik .war jest wygenerowany
-RUN ls -l target
-
-# Skopiuj plik .war do kontenera
-COPY target/PortfolioLab.war /app/PortfolioLab.war
-
-# Uruchom aplikację
-CMD ["java", "-jar", "/app/PortfolioLab.war"]
+# Uruchamiamy aplikację
+CMD ["java", "-jar", "target/PortfolioLab.war"]
