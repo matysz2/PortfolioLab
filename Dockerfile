@@ -21,4 +21,4 @@ RUN ls -l /app/target/
 COPY /app/target/charity-0.0.1-SNAPSHOT.war /app/charity.war
 
 # Uruchamiamy aplikację Spring Boot
-CMD ["java", "-jar", "/app/charity.war"]
+CMD ["java", "-war", "/app/charity.war"]
