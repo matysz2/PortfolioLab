@@ -1,27 +1,27 @@
 # Etap 1: Budowanie aplikacji
-FROM openjdk:21-jdk-slim as builder
+FROM maven:3.8.4-openjdk-21-slim AS builder
 
 # Ustawiamy katalog roboczy
 WORKDIR /app
-
-# Instalujemy Maven (jeśli nie jest zainstalowany)
-RUN apt-get update && apt-get install -y maven
 
 # Kopiujemy pliki do kontenera
 COPY pom.xml /app/
 COPY src /app/src
 
-# Budujemy aplikację
+# Budujemy aplikację (pomijamy testy w procesie budowania)
 RUN mvn clean package -DskipTests
 
-# Sprawdzamy, czy plik .war istnieje
-RUN ls -l /app/target/
+# Etap 2: Uruchamianie aplikacji
+FROM openjdk:21-jre-slim
 
-# Etap 2: Uruchamianie aplikacji na Tomcat
-FROM tomcat:9.0-jdk11-openjdk
+# Ustawiamy katalog roboczy
+WORKDIR /app
 
-# Kopiujemy plik .war z etapu budowania do folderu webapps Tomcat
-COPY --from=builder /app/target/charity-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/charity.war
+# Kopiujemy plik .jar z etapu budowania do kontenera
+COPY --from=builder /app/target/charity-0.0.1-SNAPSHOT.jar /app/charity.jar
 
-# Uruchamiamy Tomcat
-CMD ["catalina.sh", "run"]
+# Określamy polecenie uruchamiania aplikacji Spring Boot
+ENTRYPOINT ["java", "-jar", "charity.jar"]
+
+# Otwieramy port 8080 (domyślny port aplikacji Spring Boot)
+EXPOSE 8080
