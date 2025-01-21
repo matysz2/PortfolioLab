@@ -1,5 +1,5 @@
 # Etap 1: Budowanie aplikacji
-FROM openjdk:21-jdk-slim as builder
+FROM maven:3.8.4-openjdk-21-slim AS builder
 
 # Ustawiamy katalog roboczy
 WORKDIR /app
