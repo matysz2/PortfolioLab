@@ -12,7 +12,7 @@ COPY src /app/src
 RUN mvn clean package -DskipTests
 
 # Etap 2: Uruchamianie aplikacji Spring Boot
-FROM openjdk:21-jre-slim
+FROM openjdk:21-jdk-slim
 
 # Ustawiamy katalog roboczy
 WORKDIR /app
